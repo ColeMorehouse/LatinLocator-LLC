@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>LatinLocator Checkout</title>
+    <meta name="description" content="A demo of a card payment on Stripe" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="global.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/client.js" defer></script>
+  </head>
+
+  <body style="display: grid; grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; grid-template-columns: 1fr 1fr;">
+    <!-- Display a payment form -->
+    <div style="grid-row: 1 / span 2; grid-column: 1; background-image: url('NewestLogoBordorCrop.png');background-size:contain;background-position: left; background-repeat: no-repeat; margin: 10px; margin-bottom:0px;">
+    </div>
+    <div style="grid-row: 1 / span 2; grid-column: 2;">
+      <div style="height: 100%; width: 50%; float: right; display: flex; justify-content: center; align-items: center; font-size: 120%; flex-direction: row;">
+        <div style="border: 2px solid purple; border-radius: 10px; padding: 15px; text-align: center; padding-left: 20px; padding-right: 20px;">
+        <p id="name" style="color: purple;"> </p>
+        <p style="text-decoration: underline; color: purple; cursor: pointer;">Sign out</p>
+        </div>
+      </div>
+    </div>
+    <div style="grid-row: 3; grid-column: 1 /span 2; display: flex; justify-content: center; align-items: top; font-family: Gordita; ">
+      <h1 style="padding-top: 0; margin-top: 0;"> Thank you for choosing LatinLocator</h1>
+    </div>
+    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; grid-column: 2; grid-row: 4 /span 3; display: flex; justify-content: center; align-items: center; border-left: 1px solid gray;">
+      <div style="width: 50%; height: 80%; box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1), 0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07); border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+        <h2 id="title" style="font-family: Gordita; border-bottom: 1px solid gray; ">Personal Plan</h2>
+        <p style="font-family: GorditaLight; padding-bottom: 0; text-align: left; width: 80%; "> <b> <span id="an">1</span> </b> account<span id="s"></span>, unlimited access <br> Billed <b> <span id="time">monthly</span> </b> until cancelled</p>
+        <p style="font-family: GorditaLight; margin-top: 0px; padding-top: 15px; border-top: 1px solid gray; ">Total (USD): <b>$<span id="num">12.95</span> </b> </p>
+
+      </div>
+    </div>
+    <div class="container" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; grid-column: 2; grid-row: 7 /span 2; border-left: 1px solid gray;">
+    <form id="payment-form">
+      <div id="card-element"><!--Stripe.js injects the Card Element--></div>
+      <button id="submit">
+        <div class="spinner hidden" id="spinner"></div>
+        <span id="button-text">Pay</span>
+      </button>
+      <p id="card-error" role="alert"></p>
+      <p class="result-message hidden">
+        Payment succeeded, see the result in your
+        <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+      </p>
+    </form>
+  </div>
+  <div style="grid-row: 4 / span 5; grid-column: 1; display: flex; align-items: center; justify-content: center;">
+    <div style="height: 100%; width: 60%; box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1), 0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07); border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+      <h2 style="text-align: center; border-bottom: 1px solid gray; padding-bottom: 15px; font-family: Gordita; width: 80%;"> How do I redeem my purchase?</h1>
+      <h3 style=" width: 90%; text-align: left;font-family: GorditaLight;"> Step 1: Navigate to the search page at <a href="https://latinlocator.com/search.php/">latinlocator.com/search.php</a></h2>
+      <h3 style=" width: 90%;text-align: left;  font-family: GorditaLight;"> Step 2: Sign in with your paid login credentials</h2>
+      <h3 style=" width: 90%;text-align: left;font-family: GorditaLight;"> Step 3: Enjoy LatinLocator!</h2>
+    </div>
+  </div>
+
+  </body>
+
+  <script src="https://latinlocator.com/switch.js"></script>
+  <script>
+  var item = localStorage.getItem("key");
+
+  var obj = JSON.parse(item);
+
+  document.getElementById("name").innerHTML = obj.email;
+
+
+  if(obj.amount == 1295)
+  {
+    document.getElementById("title").innerHTML = "Personal Monthly Plan";
+    document.getElementById("num").innerHTML = "12.95";
+    document.getElementById("an").innerHTML = "1";
+    document.getElementById("s").innerHTML = "";
+    document.getElementById("time").innerHTML = "monthly";
+  }
+  else if(obj.amount == 9325)
+  {
+    document.getElementById("title").innerHTML = "Personal Yearly Plan";
+    document.getElementById("num").innerHTML = "93.25";
+    document.getElementById("an").innerHTML = "1";
+    document.getElementById("s").innerHTML = "";
+    document.getElementById("time").innerHTML = "yearly";
+  }
+  else if(obj.amount == 15550)
+  {
+    document.getElementById("title").innerHTML = "Group Monthly Plan";
+    document.getElementById("num").innerHTML = "155.50";
+    document.getElementById("an").innerHTML = "20";
+    document.getElementById("s").innerHTML = "s";
+    document.getElementById("time").innerHTML = "monthly";
+  }
+
+
+  </script>
+</html>

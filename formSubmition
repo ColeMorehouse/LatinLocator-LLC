@@ -1,0 +1,42 @@
+<?php
+session_start();
+
+include_once(connect.php);
+if (isset($_POST['username']) && isset($_POST['password']))
+{
+  if ($_POST['username']) != "" && ($_POST['password']) != "")
+  {
+    $usr = $_POST['username'];
+    $psw = $_POST['password'];
+    $sql_store = "INSERT into users(userName, password) VALUES ('$usr', '$psw')";
+    $sql = mysqli_query($db, $sql_store) or die("ahhhh");
+  }
+  else
+  {
+    echo "please enter information, jackass";
+  }
+}
+else
+{
+  echo "please enter information, jackass";
+}
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>form submit</title>
+
+</head>
+<body>
+  <h1>
+    please submit the form below
+  </h1>
+  <form action="connect.php" method="post"
+    <input type="text" name="username" value="" placeholder="username">
+    <input type="password" name="password" value="" placeholder="username">
+    <input type="submit" name = "submit" value="submit">
+  </form>
+</body>
+</html>
