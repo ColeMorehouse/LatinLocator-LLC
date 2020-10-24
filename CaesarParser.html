@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <title>Caesar Parser</title>
+  </head>
+  <body>
+    <input type="file" name="inputfile"
+        id="inputfile">
+    <br>
+
+    <pre id="output"></pre>
+  </body>
+  <script>
+
+  var CaesarObject =
+  {
+    author: "",
+    title: "",
+    book: "",
+    chapter: "",
+    line: "",
+    content: ""
+  };
+
+    document.getElementById('inputfile').addEventListener('change', function()
+    {
+    var fr=new FileReader();
+    fr.onload=function()
+    {
+        var text = fr.result;
+        //console.log("text" + text);
+        main(text);
+    }
+
+      fr.readAsText(this.files[0]);
+
+    })
+    function main(content)
+    {
+      document.getElementById("output").innerHTML = content;
+      var chapters = content.split("\n");
+
+      for (var i=0; i<chapters.length; i++)
+      {
+        if(chapters[i] == "\r")
+        {
+          chapters.splice(i, 1);
+        }
+      }
+      console.log(chapters);
+
+    }
+  </script>
+</html>
